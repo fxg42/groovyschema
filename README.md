@@ -9,6 +9,8 @@ It is meant to be used with
 [JsonSlurper](http://groovy.codehaus.org/gapi/groovy/json/JsonSlurper.html) when
 validating incoming JSON content in REST API implementations.
 
+[![Build Status](https://travis-ci.org/fxg42/groovyschema.png)](https://travis-ci.org/fxg42/groovyschema.png)
+
 ## Usage
 
 ```groovy
