@@ -28,7 +28,7 @@ def schema = [
 ]
 
 def validator = new groovyschema.Validator()
-def instance = new groovy.json.JsonSluper().parseText(req.body)
+def instance = new groovy.json.JsonSlurper().parseText(req.body)
 
 def validationErrors = validator.validate(instance, schema)
 ```
