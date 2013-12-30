@@ -42,12 +42,11 @@ Validates that the passed-in instance is not `null`.
 ### type
 
 Validates that the instance is of the specified type. Possible values are
-`string`, `number`, `integer`, `boolean`, `array` (evaluates to `true` for
-instances of `List`), `object` (evaluates to `true` for instances of `Map`),
-`null` and `any`.
+`string`, `number`, `integer`, `boolean`, `array` (valid for instances of
+`java.util.List`), `object` (valid for instances of `java.util.Map`), `null` and
+`any`.
 
-`null` instances that do not specify `null` as their type always evaluate to
-`true`.
+`null` instances that do not specify `null` as their type are always valid.
 
 ### enum
 
@@ -58,7 +57,7 @@ any type.
 
 ### pattern
 
-Validates that the string instance matches the passed-in regular expression:
+Validates that the instance matches the specified regular expression:
 
 ```groovy
 def schema = [
@@ -108,7 +107,7 @@ def schema = [
 
 ### divisibleBy
 
-Validates the the instance is divisible by the attribute value.
+Validates that the instance is divisible by the attribute value.
 
 ## Map-specific validations attributes
 
@@ -155,7 +154,7 @@ def schema = [
 
 Similar to the `properties` attribute, `patternProperties` specifies regular
 expressions instead of exact strings for property names. Values for properties
-that match more than a single regular expression must conform to all matching
+that match more than one regular expression must conform to all matching
 schemas.
 
 ```groovy
@@ -170,7 +169,7 @@ def schema = [
 ### dependencies
 
 Defines dependencies between properties. Dependencies can either be
-property-dependencies or schema-dependency.
+property-dependencies or schema-dependencies.
 
 Property-dependency (e.g. if property `a` is present, so also must be properties
 `b` and `c`):
@@ -220,7 +219,7 @@ def schema = [
 ]
 ```
 
-The first item must be an email; the second must be en integer. Additional
+The first item must be an email; the second must be an integer. Additional
 items are not allowed:
 
 ```groovy
@@ -252,8 +251,8 @@ By default, minItems and maxItems values are inclusive. Add the
 
 ### uniqueItems
 
-Validates that all items are unique. Males a deep comparisons for collections
-and uses the "groovy truth" for simple types.
+Validates that all items are unique. Makes a deep comparison for collections
+and uses `==` for simple types.
 
 ## Multi-schema validations attributes (allOf, anyOf, oneOf, not)
 
