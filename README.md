@@ -161,7 +161,7 @@ schemas.
 ```groovy
 def schema = [
   type: 'object',
-  properties: [
+  patternProperties: [
     /^(given|family)Name$/: [type:'string', required:true],
   ]
 ]
