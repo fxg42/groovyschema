@@ -99,8 +99,8 @@ By default, minimum and maximum values are inclusive. Add the
 // Valid if number in (0..100]
 def schema = [
   type: 'number',
-  minimum 0,
-  maximum 100,
+  minimum: 0,
+  maximum: 100,
   exclusiveMinimum: true,
 ]
 ```
