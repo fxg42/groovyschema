@@ -53,6 +53,11 @@ Validates that the instance is of the specified type. Possible values are
 Validates that the instance is in one of the given values. Enum values can be of
 any type.
 
+### fixed
+
+Validates that the instance is equal to the given value. `fixed` value can be of
+any type.
+
 ## String-specific validations attributes
 
 ### pattern

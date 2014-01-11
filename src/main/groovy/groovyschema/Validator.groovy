@@ -99,6 +99,16 @@ class Validator {
     }
   }
 
+  // Takes in a `schema` and a potential `instance` of it. Validates that the
+  // instance is equal to the `fixed` value. Returns the validation error
+  // message, if any.
+
+  private validateFixed = { instance, schema ->
+    if (! deepEqual(schema.fixed, instance)) {
+      "is not ${schema.fixed}"
+    }
+  }
+
   // Takes in a `schema` and a potential `instance` of it. Validates that items
   // in the instance are unique. Returns the validation error message, if any.
 

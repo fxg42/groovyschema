@@ -335,6 +335,23 @@ class ValidatorSpec extends Specification {
     [[1,2], [3,4], 5] | 1        | 1
   }
 
+  def "it validates the `fixed` attribute"() {
+    setup:
+    def schema = [
+      fixed: fixed
+    ]
+
+    expect:
+    validator.validate(instance, schema).size() == errCount
+
+    where:
+    fixed | instance | errCount
+    1     | 1        | 0
+    0     | 1        | 1
+    [1,2] | [1,2]    | 0
+    [0,1] | [1,2]    | 1
+  }
+
   def "it validates the `patternProperties` attribute"() {
     setup:
     def schema = [
