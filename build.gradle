@@ -1,4 +1,13 @@
 apply plugin: 'groovy'
+apply plugin: 'maven'
+
+configure(install.repositories.mavenInstaller) {
+  pom.project {
+    groupId    = 'ca.code3'
+    artifactId = 'groovyschema'
+    version    = '0.1-SNAPSHOT'
+  }
+}
 
 repositories {
   mavenCentral()
