@@ -1,14 +1,6 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
-configure(install.repositories.mavenInstaller) {
-  pom.project {
-    groupId    = 'ca.code3'
-    artifactId = 'groovyschema'
-    version    = '0.1-SNAPSHOT'
-  }
-}
-
 repositories {
   mavenCentral()
 }
@@ -17,3 +9,16 @@ dependencies {
   compile 'org.codehaus.groovy:groovy-all:2.2.1'
   testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
 }
+
+install {
+  repositories {
+    mavenInstaller { 
+      pom {
+        groupId = 'ca.code3'
+        artifactId = 'groovyschema'
+        version = '0.1-SNAPSHOT'
+      }
+    }
+  }
+}
+

@@ -11,6 +11,28 @@ validating incoming JSON content in REST API implementations.
 
 [![Build Status](https://travis-ci.org/fxg42/groovyschema.png)](https://travis-ci.org/fxg42/groovyschema)
 
+## Installing
+
+Install groovy-schema to the local maven repository using Gradle 1.9+ :
+
+```
+$ gradle test install
+```
+
+Then use it in other Groovy or Grails projects :
+
+```groovy
+@Grab('ca.code3:groovyschema:0.1-SNAPSHOT')
+import groovyschema.Validator
+```
+
+```groovy
+// BuildConfig.groovy
+dependencies {
+  compile 'ca.code3:groovyschema:0.1-SNAPSHOT'
+}
+```
+
 ## Usage
 
 ```groovy
