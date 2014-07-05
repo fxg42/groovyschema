@@ -10,6 +10,39 @@ class ValidatorSpec extends Specification {
     validator = new Validator()
   }
 
+  def "it returns the correct error message"() {
+    expect:
+    def errors = validator.validate(instance, schema)
+    errors.size() == 1
+    errors[0].message == message
+    errors[0].schema == schema
+    errors[0].instance == instance
+
+    where:
+    schema                            | instance | message
+    [type:'string']                   | 0        | "groovyschema.type.message"
+    [divisibleBy:2]                   | 3        | "groovyschema.divisibleBy.message"
+    [maximum:0]                       | 1        | "groovyschema.maximum.message"
+    [minimum:1]                       | 0        | "groovyschema.minimum.message"
+    [maxLength:0]                     | "a"      | "groovyschema.maxLength.message"
+    [minLength:1]                     | ""       | "groovyschema.minLength.message"
+    [maxItems:0]                      | [1]      | "groovyschema.maxItems.message"
+    [minItems:1]                      | []       | "groovyschema.minItems.message"
+    [format:'email']                  | ""       | "groovyschema.format.message"
+    [pattern:/a+/]                    | "b"      | "groovyschema.pattern.message"
+    [required:true]                   | null     | "groovyschema.required.message"
+    [additionalProperties:false]      | [a:1]    | "groovyschema.additionalProperties.message"
+    [additionalItems:false, items:[]] | [1]      | "groovyschema.additionalItems.message"
+    [uniqueItems:true]                | [1, 1]   | "groovyschema.uniqueItems.message"
+    [fixed:"a"]                       | "b"      | "groovyschema.fixed.message"
+    [enum:['a', 'b']]                 | ''       | "groovyschema.enum.message"
+    [dependencies:[a:'b']]            | [a:1]    | "groovyschema.dependencies.message"
+    [not:[[fixed:'a']]]               | 'a'      | "groovyschema.not.message"
+    [oneOf:[[fixed:'a']]]             | 'b'      | "groovyschema.oneOf.message"
+    [anyOf:[[fixed:'a']]]             | 'b'      | "groovyschema.anyOf.message"
+    [allOf:[[fixed:'a']]]             | 'b'      | "groovyschema.allOf.message"
+  }
+
   def "it validates the `type` attribute"() {
     expect:
     validator.validate(instance, schema).size() == errCount
@@ -88,6 +121,18 @@ class ValidatorSpec extends Specification {
     instance | schema          | errCount
     0        | [divisibleBy:2] | 0
     1        | [divisibleBy:2] | 1
+  }
+
+  def "it throws an exception when divisibleBy:0"() {
+    setup:
+    def schema = [divisible:0]
+
+    when:
+    validator.validate(1, schema)
+
+    then:
+    def exception = thrown(IllegalArgumentException)
+    exception.message == "schema instance does not comply to meta-schema"
   }
 
   def "it validates the `required` attribute"() {
@@ -335,6 +380,20 @@ class ValidatorSpec extends Specification {
     [[1,2], [3,4], 5] | 1        | 1
   }
 
+  def "it skips enum validation when instance is null"() {
+    setup:
+    def schema = [
+      enum: enumeration,
+    ]
+
+    expect:
+    validator.validate(instance, schema).size() == errCount
+
+    where:
+    enumeration | instance | errCount
+    [1,2,3]     | null     | 0
+  }
+
   def "it validates the `fixed` attribute"() {
     setup:
     def schema = [
@@ -550,4 +609,15 @@ class ValidatorSpec extends Specification {
     [a:[[b:1]], c:1, d:0]         | 1
     [a:[[b:1]], d:0]              | 0
   }
+
+  def "it meta-meta validates"() {
+    when:
+    def metaMetaErrors = validator.validate(Validator.META_SCHEMA, Validator.META_SCHEMA)
+    def metaErrors = validator.validate(Validator.ERRORS_SCHEMA, Validator.META_SCHEMA)
+
+    then:
+    metaMetaErrors.size() == 0
+    metaErrors.size() == 0
+  }
+
 }
