@@ -74,7 +74,7 @@ class Validator {
         message: [
           type: 'string',
           required: true,
-          enum: [ // corresponds to keys in `grails-app/i18n/messages.properties`
+          enum: [
             "groovyschema.additionalItems.message",
             "groovyschema.additionalProperties.message",
             "groovyschema.allOf.message",
