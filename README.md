@@ -257,7 +257,7 @@ this behaviour.
 // Valid if string length in (0..30]
 def schema = [
   type: 'string',
-  minLenght: 0,
+  minLength: 0,
   maxLength: 30,
   exclusiveMinimum: true,
 ]
